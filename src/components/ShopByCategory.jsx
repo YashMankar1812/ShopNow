@@ -1,111 +1,8 @@
-// import React, { useState, useEffect } from 'react';
-// import AOS from 'aos'; // Importing AOS
-// import 'aos/dist/aos.css'; // Importing AOS styles
-// import { Link } from "react-router-dom";
-// import {
-//   FaTshirt,
-//   FaLaptop,
-//   FaCouch,
-//   FaPaintBrush,
-//   FaAppleAlt,
-//   FaHeart,
-//   FaBookOpen,
-//   FaGamepad,
-// } from 'react-icons/fa';
-
-// const categories = [
-//   { name: "Fashion", text: "Latest trend & style", link: "/fashion", icon: <FaTshirt />, color: "bg-pink-600 text-white" },
-//   { name: "Electronics", text: "Gadgets & devices", link: "/electronics", icon: <FaLaptop />, color: "bg-blue-600 text-white" },
-//   { name: "Home & Living", text: "Decor & furniture", link: "/home-living", icon: <FaCouch />, color: "bg-green-600 text-white" },
-//   { name: "Beauty", text: "Makeup & skincare", link: "/beauty", icon: <FaPaintBrush />, color: "bg-purple-600 text-white" },
-//   { name: "Health", text: "Supplements & wellness", link: "/health", icon: <FaAppleAlt />, color: "bg-yellow-600 text-white" },
-//   { name: "Toys", text: "Fun for kids", link: "/toys", icon: <FaGamepad />, color: "bg-orange-600 text-white" },
-//   { name: "Books", text: "Read & learn", link: "/books", icon: <FaBookOpen />, color: "bg-red-600 text-white" },
-//   { name: "Sports", text: "Gear & accessories", link: "/sports", icon: <FaHeart />, color: "bg-gray-600 text-white" },
-// ];
-
-// const ShopByCategory = () => {
-//   const [showMore, setShowMore] = useState(false);
-
-//   // Initialize AOS on component mount
-//   useEffect(() => {
-//     AOS.init({ duration: 1000, easing: 'ease-in-out' });
-//   }, []);
-
-//   const handleToggle = () => {
-//     setShowMore(!showMore);
-//   };
-
-//   const displayedCategories = showMore ? categories : categories.slice(0, 4);
-
-//   return (
-//     <section className="relative  p-2 text-center  font-poppins " id="shop" data-aos="fade-up"
-//     style={{
-//       backgroundImage: "url('https://png.pngtree.com/thumb_back/fh260/background/20240327/pngtree-supermarket-aisle-with-empty-shopping-cart-at-grocery-store-retail-business-image_15646095.jpg')",
-//       backgroundSize: "cover",
-//       backgroundPosition: "center",
-//       backgroundRepeat: "no-repeat",
-//     }}
-//   >
-//       {/* Black overlay */}
-//   <div className="absolute inset-0 bg-black opacity-60"></div>
-
-    
-//       <h2 className="py-5 text-3xl text-gray-100 mb-6 font-bold" data-aos="fade-down">
-//         Shop by Category
-//       </h2>
-//       <div className="my-5 mx-5">
-//         <div className="flex justify-center gap-8 flex-wrap  ">
-//           {displayedCategories.map((category, index) => (
-//             <div
-//   key={index}
-//   className="bg-white/30 backdrop-blur-lg rounded-lg shadow-lg w-54 text-center px-20 py-10"
-//   data-aos="zoom-in"
-//   data-aos-delay={index * 100}
-// >
-
-
-//               {/* Icon Section */}
-//               <div className={`w-16 h-16 mx-auto mb-4 ${category.color} rounded-full flex items-center justify-center`}>
-//                 <div className="text-3xl cursor-pointer">{category.icon}</div>
-//               </div>
-
-//               {/* Category Name and Text */}
-//               <h1 className="text-xl text-gray-200">{category.name}</h1>
-//               <p className="text-sm my-2 mb-5 text-white">{category.text}</p>
-
-//               {/* Shop Now Link */}
-//               <Link
-//   to={"/shop"}
-//   className={`py-2 px-4 rounded-full ${category.color} hover:bg-opacity-100 transition-transform transform hover:scale-105`}
-// >
-//   Shop Now
-// </Link>
-
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* View All Categories Button */}
-//         <div className="mt-10" data-aos="fade-up">
-//           <button
-//             onClick={handleToggle}
-//             className="bg-black text-white py-3 px-6 rounded-full hover:bg-opacity-100  transition-transform transform hover:scale-105"
-//           >
-//             {showMore ? "Show Less " : "Show More"}
-//           </button>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default ShopByCategory;
-
 
 import React, { useState, useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+
 import { Link } from "react-router-dom";
 import {
   FaTshirt, FaLaptop, FaCouch, FaPaintBrush,
@@ -201,7 +98,7 @@ const ShopByCategory = () => {
 
   return (
     <section 
-      className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden"
+      className="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden "
       style={{
         background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)'
       }}
@@ -274,11 +171,17 @@ const ShopByCategory = () => {
                   <h3 className="text-2xl font-bold mb-2">{category.name}</h3>
                   <p className="text-sm opacity-80 mb-6">{category.text}</p>
                   <Link
+  to="/shop"  // This should match your route path
+  className="inline-block px-6 py-2 bg-white text-gray-900 rounded-full font-medium hover:bg-opacity-90 transition-all transform hover:scale-105"
+>
+  Shop Now
+</Link>
+                  {/* <Link
                     to={category.link}
                     className="inline-block px-6 py-2 bg-white text-gray-900 rounded-full font-medium hover:bg-opacity-90 transition-all transform hover:scale-105"
                   >
                     Shop Now
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
 

@@ -46,7 +46,7 @@ const salesData = [
     discount: 25,
     rating: 4.7,
     reviews: 215,
-    image: "https://cdn.thewirecutter.com/wp-content/media/2023/10/noisecancellingheadphones-2048px-0945.jpg",
+    image: "https://www.91-cdn.com/hub/wp-content/uploads/2024/01/amazon-great-republic-day-sale-best-headphones-deals-1200x720.png",
     expiry: Date.now() + 24 * 60 * 60 * 1000,
     details: "Experience crystal clear sound with our premium noise-cancelling wireless headphones. 30-hour battery life and comfortable over-ear design.",
     features: ["Active Noise Cancelling", "30hr Battery", "Bluetooth 5.0", "Built-in Mic"],
@@ -104,7 +104,7 @@ const Sales = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 font-poppins py-6 px-3 sm:px-6 m-20">
+    <div className="min-h-screen bg-gray-50 font-poppins py-6 px-3 sm:px-6 m-10 mt-20">
       {/* Header */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
@@ -324,7 +324,7 @@ const Sales = () => {
                 </div>
 
                 {/* Colors */}
-                <div className="mb-6">
+                {/* <div className="mb-6">
                   <h3 className="font-semibold text-gray-800 mb-2">Available Colors:</h3>
                   <div className="flex space-x-2">
                     {selectedSale.colors.map((color, i) => (
@@ -337,7 +337,7 @@ const Sales = () => {
                                  color.toLowerCase().includes('red') ? '#ef4444' : '#000000' }} />
                     ))}
                   </div>
-                </div>
+                </div> */}
 
                 {/* Action Buttons */}
                 <div className="flex space-x-3">
