@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
@@ -5,7 +7,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const categories = ["All", "Clothing", "Electronics", "Accessories", "Fitness", "Shoes", "Beauty", "Health", "Books", "Toys"];
+const categories = [
+  "All", "Clothing", "Electronics", "Accessories", "Fitness", "Shoes", "Beauty", "Health", "Books", "Toys"
+];
 
 // Sample Data (Replace with API Data)
 const products = [
@@ -449,69 +453,41 @@ const products = [
             image: "https://sleepycat.in/wp-content/uploads/2022/05/SoftTouch-Memory-Foam-Pillow-640-x-480-img-1_Pack-of-1.jpg"
           }
 ];
+
 const Shop = () => {
   const { addToCart } = useCart();
   const [view, setView] = useState("grid");
   const [category, setCategory] = useState("All");
   const [wishlist, setWishlist] = useState([]);
 
-  // Load wishlist from localStorage on component mount
   useEffect(() => {
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
     setWishlist(storedWishlist);
   }, []);
 
-  // Filter products based on selected category
-  const filteredProducts = category === "All" ? products : products.filter((p) => p.category === category);
-
-  // Handle adding/removing from wishlist
-  const handleWishlistClick = (product) => {
-    if (!product || !product.id) return;
-
-    const isInWishlist = wishlist.some((item) => item?.id === product.id);
-    let updatedWishlist;
-
-    if (isInWishlist) {
-      updatedWishlist = wishlist.filter((item) => item?.id !== product.id);
-      toast.info(`${product.name} removed from wishlist!`, { 
-        toastId: `wishlist-remove-${product.id}`,
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
-    } else {
-      updatedWishlist = [...wishlist, product];
-      toast.success(`${product.name} added to wishlist!`, { 
-        toastId: `wishlist-add-${product.id}`,
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true
-      });
-    }
-
+  const handleWishlistToggle = (product) => {
+    if (!product?.id) return;
+    
+    const updatedWishlist = wishlist.some(item => item.id === product.id)
+      ? wishlist.filter(item => item.id !== product.id)
+      : [...wishlist, product];
+    
     setWishlist(updatedWishlist);
     localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    
+    toast(updatedWishlist.some(item => item.id === product.id)
+      ? `${product.name} added to wishlist!`
+      : `${product.name} removed from wishlist!`, { 
+        position: "top-right", autoClose: 2000, hideProgressBar: true
+      });
   };
 
-  // Handle add to cart with toast
   const handleAddToCart = (product) => {
     addToCart(product);
-    toast.success(`${product.name} added to cart!`, { 
-      toastId: `cart-add-${product.id}`,
-      position: "top-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    });
+    toast.success(`${product.name} added to cart!`, { position: "top-right", autoClose: 2000 });
   };
+
+  const filteredProducts = category === "All" ? products : products.filter(p => p.category === category);
 
   return (
     <div className="max-w-6xl mx-auto p-6 font-poppins">
@@ -521,9 +497,7 @@ const Shop = () => {
           <button
             key={cat}
             onClick={() => setCategory(cat)}
-            className={`px-4 py-2 border rounded-full transition ${
-              category === cat ? "bg-teal-600 text-white" : "bg-gray-100 hover:bg-gray-200"
-            }`}
+            className={`px-4 py-2 border rounded-full transition ${category === cat ? "bg-teal-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
           >
             {cat}
           </button>
@@ -532,59 +506,60 @@ const Shop = () => {
 
       {/* View Toggle */}
       <div className="flex justify-end mt-6">
-        <button
-          onClick={() => setView(view === "grid" ? "list" : "grid")}
-          className="text-2xl text-gray-800 p-2 border rounded transition hover:bg-gray-200"
-        >
+        <button onClick={() => setView(view === "grid" ? "list" : "grid")} className="text-2xl p-2 border rounded hover:bg-gray-200">
           {view === "grid" ? <CiBoxList /> : <CiGrid41 />}
         </button>
       </div>
 
       {/* Products Grid/List */}
       <div className={`${view === "grid" ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-8" : "space-y-6 mt-8"}`}>
-        {filteredProducts.map((product) =>
-          product?.id ? (
-            <div key={product.id} className={`relative bg-white border rounded-lg shadow-md ${view === "list" ? "flex" : ""}`}>
-              {/* Wishlist Button */}
-              <button
-                onClick={() => handleWishlistClick(product)}
-                className="absolute top-2 right-2 text-xl text-red-500 hover:text-red-700 bg-white bg-opacity-75 p-2 rounded-full shadow-md"
-              >
-                {wishlist.some((item) => item?.id === product.id) ? <FaHeart /> : <FaRegHeart />}
-              </button>
+      {filteredProducts?.map((product) => {
+  if (!product || !product.id) return null; // Ensure product is valid
 
-              {/* Product Image */}
-              <img
-                src={product.image}
-                alt={product.name}
-                className={`object-cover cursor-pointer overflow-hidden transition-transform hover:scale-105 ${view === "grid" ? "w-full h-64" : "w-48 h-48"}`}
-              />
+  return (
+    <div key={product.id} className={`relative bg-white border rounded-lg shadow-md ${view === "list" ? "flex" : ""}`}>
+      {/* Wishlist Button */}
+      <button
+        onClick={() => handleWishlistClick(product)}
+        className="absolute top-2 right-2 text-xl text-red-500 hover:text-red-700 bg-white bg-opacity-75 p-2 rounded-full shadow-md"
+      >
+        {wishlist.some((item) => item?.id === product.id) ? <FaHeart /> : <FaRegHeart />}
+      </button>
 
-              {/* Product Details */}
-              <div className={`p-6 flex flex-col justify-between ${view === "list" ? "flex-1" : ""}`}>
-                <h2 className="text-s font-semibold text-gray-800">{product.name}</h2>
-                <p className="text-gray-500 text-sm mb-4">{product.category}</p>
-                <div className="flex items-center justify-between">
-                  <p className="text-green-600 font-bold text-lg">${product.price}</p>
+      {/* Product Image */}
+      <img
+        src={product.image}
+        alt={product.name}
+        className={`object-cover cursor-pointer overflow-hidden transition-transform hover:scale-105 ${view === "grid" ? "w-full h-64" : "w-48 h-48"}`}
+      />
 
-                  {/* Add to Cart Button */}
-                  <button
-                    className="px-4 py-2 border-2 border-teal-600 text-teal-600 rounded-md shadow transition hover:bg-teal-600 hover:text-white"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : null
-        )}
+      {/* Product Details */}
+      <div className={`p-6 flex flex-col justify-between ${view === "list" ? "flex-1" : ""}`}>
+        <h2 className="text-s font-semibold text-gray-800">{product.name}</h2>
+        <p className="text-gray-500 text-sm mb-4">{product.category}</p>
+        <div className="flex items-center justify-between">
+          <p className="text-green-600 font-bold text-lg">${product.price}</p>
+
+          {/* Add to Cart Button */}
+          <button
+            className="px-4 py-2 border-2 border-teal-600 text-teal-600 rounded-md shadow transition hover:bg-teal-600 hover:text-white"
+            onClick={() => handleAddToCart(product)}
+          >
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+})}
+
       </div>
     </div>
   );
 };
 
 export default Shop;
+
 
 
 // import React, { useState, useEffect } from "react";

@@ -1,5 +1,30 @@
 import React from 'react';
 import { FiArrowRight, FiStar, FiShoppingCart } from 'react-icons/fi';
+import { useCart } from '../context/CartContext';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const handleAddToCart = (product) => {
+  const { addToCart } = useCart();
+  const productToAdd = {
+    ...product,
+    qty: 1, // Default quantity
+    price: Number(product.price), // Ensure price is a number
+    category: 'Home & Living'
+  };
+  
+  addToCart(productToAdd);
+  
+  toast.success(`${product.name} added to cart`, {
+    position: "bottom-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  });
+};
+
 
 const HomeLivingPage = () => {
   // Room categories with high-quality placeholder images
@@ -237,9 +262,12 @@ const HomeLivingPage = () => {
                   <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm">
                     <FiStar className="text-yellow-500" />
                   </div>
-                  <button className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-2 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center">
-                    <FiShoppingCart className="mr-2" /> Add to Cart
-                  </button>
+                  <button 
+  onClick={() => handleAddToCart(product)}
+  className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black text-white px-6 py-2 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center"
+>
+  <FiShoppingCart className="mr-2" /> Add to Cart
+</button>
                 </div>
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-2">
@@ -257,7 +285,7 @@ const HomeLivingPage = () => {
                     </div>
                     <span className="text-gray-500 text-sm ml-2">{product.rating}</span>
                   </div>
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     <span className="text-gray-500 text-sm mr-2">Colors:</span>
                     {product.colors.map((color, i) => (
                       <div 
@@ -266,7 +294,7 @@ const HomeLivingPage = () => {
                         style={{ backgroundColor: color }}
                       ></div>
                     ))}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}

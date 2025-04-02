@@ -170,13 +170,13 @@ const categories = [
   {
     name: "Men's Fashion",
     image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    link: "/category/mens-fashion",
+    link: "/category/mens",
     desc: "Discover the latest trends in men's fashion, from casual to formal wear.",
   },
   {
     name: "Women's Fashion",
     image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    link: "/category/womens-fashion",
+    link: "/category/beauty",
     desc: "Stylish and elegant clothing options curated just for you.",
   },
   {
@@ -194,7 +194,7 @@ const categories = [
   {
     name: "Home & Decor",
     image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    link: "/category/home-decor",
+    link: "/category/living",
     desc: "Transform your space with modern and stylish home décor items.",
   },
   {

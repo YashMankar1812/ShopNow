@@ -14,6 +14,7 @@ import Footer from './components/Footer'; // Import the Footer component
 import BackToTopButton from "./pages/BackToTopButton";
 import Checkout from './components/Checkout';
 import Clothing from "./pages/Clothing";
+import SportsFitness from "./pages/SportsFitness";
 import Electronics from "./pages/Electronics";
 import DealsDiscounts from "./pages/DealsDiscounts";
 import Furniture from "./pages/Furniture";
@@ -26,6 +27,9 @@ import HomeLivingPage from './pages/HomeLivingPage';
 import BeautyPage from './pages/BeautyPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import KidsWear from './pages/KidsWear';
+import ElectronicsPage from './pages/ElectronicsPage';
+import MensFashion from './pages/MensFashion';
 // import ProductCategoriesSlider from './pages/ProductCategoriesSlider';
 
 
@@ -49,6 +53,10 @@ const App = () => {
              <Route path="/deals" element={<DealsDiscounts />} />
              <Route path="/wishlist" element={<Wishlist/>}  />
              <Route path="/category" element={<Categories />} />
+             <Route path="/category/mens" element={<MensFashion />} />
+             <Route path="/category/electronics" element={<ElectronicsPage/>} />
+             <Route path="/category/sports-fitness" element={<SportsFitness />} />
+             <Route path="/category/kids-wear" element={<KidsWear />} />
              <Route path="/category/fashion" element={<FashionPage/>} />
             <Route path="/category/living" element={<HomeLivingPage />} />
             <Route path="/category/beauty" element={<BeautyPage/>} />

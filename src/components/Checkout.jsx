@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CheckoutForm from "../components/CheckoutForm";
 import PaymentOptions from "../components/PaymentOptions";
-import OrderSummary from "../components/OrderSummary";
+// import OrderSummary from "../components/OrderSummary";
 
 const Checkout = () => {
   const [shippingDetails, setShippingDetails] = useState(null);
@@ -33,7 +33,7 @@ const Checkout = () => {
       <h1 className="text-2xl  text-center mb-4">Checkout</h1>
       <CheckoutForm onFormSubmit={handleFormSubmit} />
       {shippingDetails && <PaymentOptions onPaymentSelect={handlePaymentSelect} />}
-      {shippingDetails && paymentMethod && <OrderSummary />}
+      {/* {shippingDetails && paymentMethod && <OrderSummary />} */}
       {shippingDetails && paymentMethod && (
         <button
           className="bg-green-500 text-white p-3 w-full mt-4 rounded"
