@@ -10,7 +10,7 @@ import { MdOutlineAssignmentReturn } from "react-icons/md";
 import { Pagination, Autoplay } from "swiper";
 import { useNavigate } from "react-router-dom";
 
-  
+   
   
   const NewCollection = () => {
     // Initialize AOS
