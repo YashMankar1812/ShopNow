@@ -109,7 +109,7 @@ const ElectronicsPage = () => {
     });
     
     toast.success(`${qty > 1 ? `${qty} × ` : ''}${product.name} added to cart`, {
-      position: "bottom-right",
+      position: "top-left",
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,

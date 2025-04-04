@@ -30,6 +30,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import KidsWear from './pages/KidsWear';
 import ElectronicsPage from './pages/ElectronicsPage';
 import MensFashion from './pages/MensFashion';
+import EmptyWishlist from './pages/EmptyWishlist ';
 // import ProductCategoriesSlider from './pages/ProductCategoriesSlider';
 
 
@@ -52,6 +53,7 @@ const App = () => {
              <Route path="/sales" element={<Sales />} />
              <Route path="/deals" element={<DealsDiscounts />} />
              <Route path="/wishlist" element={<Wishlist/>}  />
+             <Route path="/emptywishlist" element={<EmptyWishlist/>}  />
              <Route path="/category" element={<Categories />} />
              <Route path="/category/mens" element={<MensFashion />} />
              <Route path="/category/electronics" element={<ElectronicsPage/>} />

@@ -110,7 +110,7 @@ const KidsWear = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8  font-poppins mt-20">
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-pink-400 to-purple-500 rounded-xl p-8 mb-8 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-black opacity-10"></div>
