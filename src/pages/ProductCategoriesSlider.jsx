@@ -13,7 +13,6 @@ const ProductCategoriesSlider = () => {
     { name: "Vestibulum ante", products: 4, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-f-1.webp" },
     { name: "Masternas nec", products: 8, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-10.webp" },
     { name: "Aenean tellus", products: 4, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-m-1.webp" },
-    { name: "Etiam ultricies", products: 4, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-2.webp" },
     { name: "Fusce fermentum", products: 4, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-2.webp" },
     { name: "Vestibulum ante", products: 4, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-7.webp" },
     { name: "Masternas nec", products: 8, img: "https://bootstrapmade.com/content/demo/eStore/assets/img/product/product-12-variant.webp" },

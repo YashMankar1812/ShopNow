@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FaLock, FaCreditCard, FaPaypal, FaApple, FaGoogle } from "react-icons/fa";
 import { SiVisa, SiMastercard, SiAmericanexpress, SiDiscover } from "react-icons/si";
 import { FiChevronRight } from "react-icons/fi";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PaymentOptions = () => {
   const [selectedPayment, setSelectedPayment] = useState(null);
@@ -30,8 +32,20 @@ const PaymentOptions = () => {
 
   const handlePaymentSelection = (paymentMethod) => {
     setSelectedPayment(paymentMethod);
-    // In a real app, you might want to save this to state/context before navigation
-    navigate("/order-summary", { state: { paymentMethod } });
+    toast.success(`${paymentMethod} selected!`, {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    // Instead of navigating to order-summary, navigate to order-confirmation
+    setTimeout(() => {
+      navigate("/order-confirmation", { state: { paymentMethod } });
+    }, 2500); // Delay navigation slightly to show the toast
   };
 
   return (
@@ -104,19 +118,16 @@ const PaymentOptions = () => {
           >
             Back to Shipping
           </button>
+          {/* The "Continue to Review" button is now disabled and the navigation happens on selection */}
           <button
-            onClick={() => selectedPayment && navigate("/order-summary", { state: { selectedPayment } })}
-            disabled={!selectedPayment}
-            className={`px-6 py-3 rounded-lg text-white font-medium ${
-              selectedPayment
-                ? "bg-teal-600 hover:bg-teal-700"
-                : "bg-gray-300 cursor-not-allowed"
-            } transition-colors`}
+            disabled={true}
+            className={`px-6 py-3 rounded-lg text-white font-medium bg-gray-300 cursor-not-allowed transition-colors`}
           >
             Continue to Review
           </button>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -11,8 +11,6 @@ import { useCart } from "../context/CartContext";
 import { IoIosHeart } from "react-icons/io";
 import { IoPersonSharp } from "react-icons/io5";
 import { CartContext } from "../context/CartContext";
-import Profile from "../components/Profile";
-// import { useEffect, useState } from "react";
 
 
 
@@ -73,12 +71,6 @@ const Navbar = () => {
   };
   
   const { cart } = useContext(CartContext);
-
-
-
-
-
-  // const { cart } = useContext(CartContext) || { cart: [] };
 
 
 
@@ -209,39 +201,8 @@ const Navbar = () => {
 
         {/* Desktop icons */}
         <div className="hidden lg:flex items-center space-x-4">
-          {/* <button onClick={toggleSearchInput}>
-            <CiSearch className="stroke-1 text-lg text-white " />
-          </button> */}
+       
 
-
-     {/* Search Overlay with Blur Effect */}
-     {/* {isSearchOpen && (
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 p-4 w-1/2 flex items-center space-x-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="p-2 border border-gray-300 rounded-full w-full "
-              />
-              <button onClick={toggleSearchInput}>
-                <IoClose className="text-xl" />
-              </button>
-            </div>
-          )}  */}
-{/* 
-          <NavLink to="/profile">
-            <button>
-              <CiUser className="stroke-1 text-lg" />
-            </button>
-          </NavLink> */}
-
- <button className="relative text-white group" onClick={() => navigate("/profile")} 
->
-  <IoPersonSharp />
-  {/* Hover Label */}
-  <span className="absolute -top-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity">
-    Profile
-  </span>
-</button> 
 
 <button
       className="hidden lg:flex items-center space-x-4 relative group"
@@ -274,13 +235,9 @@ const Navbar = () => {
 </button>
 
 
-
-
   </div>
 </div>
-      {/* <button onClick={toggleModal} className="bg-black text-white p-2 rounded-full">
-            Signup
-          </button> */}
+
         
 
       {/* Sidebar for mobile view */}

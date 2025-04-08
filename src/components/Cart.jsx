@@ -1,138 +1,8 @@
 
-
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useCart } from "../context/CartContext";
-// import { ImBin2 } from "react-icons/im";
-// import EmptyCart from "./EmptyCart";
-
-// const Cart = () => {
-//   const { cartItems, updateQuantity, removeFromCart } = useCart();
-//   const navigate = useNavigate();
-
-//   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
-//   const tax = subtotal * 0.08;
-//   const total = subtotal + tax;
-
-//   const handleCheckout = () => {
-//     navigate("/checkout");
-//   };
-
-//   if (cartItems.length === 0) {
-//     return <EmptyCart />;
-//   }
-
-//   return (
-//     <div className="container mx-auto p-6 font-poppins">
-//       <h2 className="text-2xl font-semibold mb-8 text-gray-800 text-center sm:text-left">
-//         Shopping Cart
-//       </h2>
-
-//       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//         {/* Price Breakdown */}
-//         <aside className="bg-gray-50 p-6 rounded-lg shadow-md md:order-first">
-//           <h3 className="text-lg font-semibold mb-4 text-gray-700">
-//             Order Summary
-//           </h3>
-//           <div className="flex justify-between mb-2">
-//             <span className="text-gray-600">Subtotal:</span>
-//             <span className="font-medium">${subtotal.toFixed(2)}</span>
-//           </div>
-//           <div className="flex justify-between mb-2">
-//             <span className="text-gray-600">Tax (8%):</span>
-//             <span className="font-medium">${tax.toFixed(2)}</span>
-//           </div>
-//           <hr className="my-3" />
-//           <div className="flex justify-between font-semibold text-lg text-gray-800">
-//             <span>Total:</span>
-//             <span>${total.toFixed(2)}</span>
-//           </div>
-//           <button
-//             className="w-full bg-green-600 text-white py-3 mt-6 rounded-md hover:bg-green-700 transition-colors"
-//             onClick={handleCheckout}
-//           >
-//             Proceed to Checkout
-//           </button>
-//         </aside>
-
-//         {/* Cart Table */}
-//         <div className="md:col-span-2 bg-white p-6 rounded-lg shadow-md overflow-x-auto">
-//           <table className="w-full border-collapse">
-//             <thead>
-//               <tr className="bg-gray-100 border-b">
-//                 <th className="py-3 px-4 text-left font-semibold text-sm text-gray-700">
-//                   Product
-//                 </th>
-//                 <th className="py-3 px-4 text-left font-semibold text-sm text-gray-700">
-//                   Name
-//                 </th>
-//                 <th className="py-3 px-4 text-left font-semibold text-sm text-gray-700">
-//                   Price
-//                 </th>
-//                 <th className="py-3 px-4 text-left font-semibold text-sm text-gray-700">
-//                   Quantity
-//                 </th>
-//                 <th className="py-3 px-4 text-left font-semibold text-sm text-gray-700">
-//                   Actions
-//                 </th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {cartItems.map((item) => (
-//                 <tr key={item.id} className="border-b hover:bg-gray-50">
-//                   <td className="py-4 px-4">
-//                     <img
-//                       src={item.image}
-//                       alt={item.name}
-//                       className="w-16 h-16 object-cover rounded-md"
-//                     />
-//                   </td>
-//                   <td className="py-4 px-4 text-gray-700">{item.name}</td>
-//                   <td className="py-4 px-4 text-gray-700">
-//                     ${item.price.toFixed(2)}
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <div className="flex items-center space-x-2">
-//                       <button
-//                         onClick={() => updateQuantity(item.id, item.qty - 1)}
-//                         className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-//                         disabled={item.qty <= 1}
-//                       >
-//                         -
-//                       </button>
-//                       <span className="text-gray-700">{item.qty}</span>
-//                       <button
-//                         onClick={() => updateQuantity(item.id, item.qty + 1)}
-//                         className="px-2 py-1 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
-//                       >
-//                         +
-//                       </button>
-//                     </div>
-//                   </td>
-//                   <td className="py-4 px-4">
-//                     <button
-//                       onClick={() => removeFromCart(item.id)}
-//                       className="text-red-500 hover:text-red-600 transition-colors"
-//                     >
-//                       <ImBin2 size={20} />
-//                     </button>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Cart;
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { FiTrash2, FiChevronLeft, FiShoppingBag } from "react-icons/fi";
+import { FiTrash2, FiChevronLeft } from "react-icons/fi";
 import { toast } from "react-toastify";
 import EmptyCart from "./EmptyCart";
 
@@ -146,11 +16,11 @@ const Cart = () => {
   const total = subtotal + shippingFee + tax;
 
   const handleCheckout = () => {
-    navigate('/checkout');
+    navigate("/checkout");
   };
 
   const handleContinueShopping = () => {
-    navigate('/shop');
+    navigate("/shop");
   };
 
   const handleRemoveItem = (itemId, itemName) => {
@@ -165,6 +35,15 @@ const Cart = () => {
   const handleQuantityChange = (itemId, newQty) => {
     if (newQty < 1) return;
     updateQuantity(itemId, newQty);
+  };
+
+  const handleClearCart = () => {
+    clearCart();
+    toast.success("Cart cleared successfully", {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+    });
   };
 
   if (cartItems.length === 0) {
@@ -245,9 +124,7 @@ const Cart = () => {
 
                     {/* Subtotal & Remove */}
                     <div className="col-span-2 md:col-span-2 flex items-center justify-end mt-4 md:mt-0 space-x-4">
-                      <p className="text-gray-900 font-medium">
-                        ${(item.price * item.qty).toFixed(2)}
-                      </p>
+                      <p className="text-gray-900 font-medium">${(item.price * item.qty).toFixed(2)}</p>
                       <button
                         onClick={() => handleRemoveItem(item.id, item.name)}
                         className="text-gray-400 hover:text-red-500 transition-colors"
@@ -263,13 +140,7 @@ const Cart = () => {
               {/* Clear Cart Button */}
               <div className="p-4 border-t flex justify-end">
                 <button
-                  onClick={() => {
-                    clearCart();
-                    toast.success("Cart cleared successfully", {
-                      position: "bottom-right",
-                      autoClose: 2000,
-                    });
-                  }}
+                  onClick={handleClearCart}
                   className="text-sm text-red-600 hover:text-red-800 transition-colors"
                 >
                   Clear Entire Cart
@@ -315,7 +186,7 @@ const Cart = () => {
               </button>
 
               <div className="mt-4 text-center text-sm text-gray-500">
-                or{' '}
+                or{" "}
                 <button
                   onClick={handleContinueShopping}
                   className="text-teal-600 hover:text-teal-800 font-medium"
@@ -332,4 +203,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

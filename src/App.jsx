@@ -1,16 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import { CartProvider } from "./context/CartContext";
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import Profile from './components/Profile'; // Import the Profile component
+import Profile from './components/Profile';
 import Shop from './components/Shop';
 import Cart from './components/Cart';
 import Categories from './components/Categories';
 import Sales from './components/Sales';
 import Contact from './components/Contact';
-import Footer from './components/Footer'; // Import the Footer component
+import Footer from './components/Footer';
 import BackToTopButton from "./pages/BackToTopButton";
 import Checkout from './components/Checkout';
 import Clothing from "./pages/Clothing";
@@ -19,7 +18,7 @@ import Electronics from "./pages/Electronics";
 import DealsDiscounts from "./pages/DealsDiscounts";
 import Furniture from "./pages/Furniture";
 import PaymentOptions from "./components/PaymentOptions";
-import OrderSummary from "./components/OrderSummary";
+// import OrderSummary from "./components/OrderSummary";
 import Wishlist from './pages/Wishlist';
 import AboutUs from './pages/AboutUs';
 import FashionPage from './pages/FashionPage';
@@ -31,54 +30,163 @@ import KidsWear from './pages/KidsWear';
 import ElectronicsPage from './pages/ElectronicsPage';
 import MensFashion from './pages/MensFashion';
 import EmptyWishlist from './pages/EmptyWishlist ';
-// import ProductCategoriesSlider from './pages/ProductCategoriesSlider';
-
+import LoginSignup from './components/LoginSignup ';
+import OrderConfirmation from './pages/OrderConfirmation';
+import ViewOrders from './pages/ViewOrders';
 
 const App = () => {
-  return (
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userName, setUserName] = useState('');
 
+  useEffect(() => {
+    const storedName = localStorage.getItem('userName');
+    if (storedName) {
+      setUserName(storedName);
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+  const handleLoginSuccess = (name) => {
+    setUserName(name);
+    setIsLoggedIn(true);
+    localStorage.setItem('userName', name);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    setIsLoggedIn(false);
+    setUserName('');
+  };
+
+  return (
     <CartProvider>
       <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
-    <Router>
-        <Navbar /> {/* Navbar is always visible */}
-        {/* Add margin to prevent Navbar overlap */}
-          <Routes>
-            {/* Define Routes for different pages */}
-            <Route path="/" element={<HeroSection />} />
-            <Route path="/about" element={<AboutUs/>} />
-             <Route path="/shop" element={<Shop/>}  />
-             <Route path="/shop/clothing" element={<Clothing />} />
-            <Route path="/shop/electronics" element={<Electronics />} />
-            <Route path="/shop/furniture" element={<Furniture />} />
-             <Route path="/sales" element={<Sales />} />
-             <Route path="/deals" element={<DealsDiscounts />} />
-             <Route path="/wishlist" element={<Wishlist/>}  />
-             <Route path="/emptywishlist" element={<EmptyWishlist/>}  />
-             <Route path="/category" element={<Categories />} />
-             <Route path="/category/mens" element={<MensFashion />} />
-             <Route path="/category/electronics" element={<ElectronicsPage/>} />
-             <Route path="/category/sports-fitness" element={<SportsFitness />} />
-             <Route path="/category/kids-wear" element={<KidsWear />} />
-             <Route path="/category/fashion" element={<FashionPage/>} />
-            <Route path="/category/living" element={<HomeLivingPage />} />
-            <Route path="/category/beauty" element={<BeautyPage/>} />
-             <Route path="/cart" element={<Cart />} />
-             <Route path="/contact" element={<Contact />} />
-             <Route path="/checkout" element={<Checkout />} />
-             <Route path="/payment" element={<PaymentOptions />} />
-             {/* <Route path="product" element={<ProductCategoriesSlider/>} */}
-             <Route path="/order-summary" element={<OrderSummary />} />
-            <Route path="/profile" element={<Profile />} /> 
-            {/* Add more routes as needed for other pages */}
-          </Routes>
-          <BackToTopButton />
-        <Footer/>
-    </Router>
+      <Router>
+        {isLoggedIn ? (
+          <>
+            <Navbar userName={userName} onLogout={handleLogout} /> {/* Pass userName and onLogout */}
+            <Routes>
+              <Route path="/" element={<HeroSection />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/clothing" element={<Clothing />} />
+              <Route path="/shop/electronics" element={<Electronics />} />
+              <Route path="/shop/furniture" element={<Furniture />} />
+              <Route path="/sales" element={<Sales />} />
+              <Route path="/deals" element={<DealsDiscounts />} />
+              <Route path="/wishlist" element={<Wishlist />} />
+              <Route path="/emptywishlist" element={<EmptyWishlist />} />
+              <Route path="/category" element={<Categories />} />
+              <Route path="/category/mens" element={<MensFashion />} />
+              <Route path="/category/electronics" element={<ElectronicsPage />} />
+              <Route path="/category/sports-fitness" element={<SportsFitness />} />
+              <Route path="/category/kids-wear" element={<KidsWear />} />
+              <Route path="/category/fashion" element={<FashionPage />} />
+              <Route path="/category/living" element={<HomeLivingPage />} />
+              <Route path="/category/beauty" element={<BeautyPage />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment" element={<PaymentOptions />} />
+              <Route path="/order-confirmation" element={<OrderConfirmation />} />
+              <Route path="/orders" element={<ViewOrders/>} />
+              {/* <Route path="/order-summary" element={<Or derSummary />} /> */}
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+            <BackToTopButton />
+            <Footer />
+          </>
+        ) : (
+          <LoginSignup onLoginSuccess={handleLoginSuccess} />
+        )}
+      </Router>
     </CartProvider>
   );
 };
 
 export default App;
+
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { useNavigate } from "react-router-dom";
+// import { CartProvider } from "./context/CartContext";
+// import Navbar from './components/Navbar';
+// import HeroSection from './components/HeroSection';
+// import Profile from './components/Profile'; // Import the Profile component
+// import Shop from './components/Shop';
+// import Cart from './components/Cart';
+// import Categories from './components/Categories';
+// import Sales from './components/Sales';
+// import Contact from './components/Contact';
+// import Footer from './components/Footer'; // Import the Footer component
+// import BackToTopButton from "./pages/BackToTopButton";
+// import Checkout from './components/Checkout';
+// import Clothing from "./pages/Clothing";
+// import SportsFitness from "./pages/SportsFitness";
+// import Electronics from "./pages/Electronics";
+// import DealsDiscounts from "./pages/DealsDiscounts";
+// import Furniture from "./pages/Furniture";
+// import PaymentOptions from "./components/PaymentOptions";
+// import OrderSummary from "./components/OrderSummary";
+// import Wishlist from './pages/Wishlist';
+// import AboutUs from './pages/AboutUs';
+// import FashionPage from './pages/FashionPage';
+// import HomeLivingPage from './pages/HomeLivingPage';
+// import BeautyPage from './pages/BeautyPage';
+// import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+// import KidsWear from './pages/KidsWear';
+// import ElectronicsPage from './pages/ElectronicsPage';
+// import MensFashion from './pages/MensFashion';
+// import EmptyWishlist from './pages/EmptyWishlist ';
+// // import ProductCategoriesSlider from './pages/ProductCategoriesSlider';
+
+
+// const App = () => {
+//   return (
+
+//     <CartProvider>
+//       <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+//     <Router>
+//         <Navbar /> {/* Navbar is always visible */}
+//         {/* Add margin to prevent Navbar overlap */}
+//           <Routes>
+//             {/* Define Routes for different pages */}
+//             <Route path="/" element={<HeroSection />} />
+//             <Route path="/about" element={<AboutUs/>} />
+//              <Route path="/shop" element={<Shop/>}  />
+//              <Route path="/shop/clothing" element={<Clothing />} />
+//             <Route path="/shop/electronics" element={<Electronics />} />
+//             <Route path="/shop/furniture" element={<Furniture />} />
+//              <Route path="/sales" element={<Sales />} />
+//              <Route path="/deals" element={<DealsDiscounts />} />
+//              <Route path="/wishlist" element={<Wishlist/>}  />
+//              <Route path="/emptywishlist" element={<EmptyWishlist/>}  />
+//              <Route path="/category" element={<Categories />} />
+//              <Route path="/category/mens" element={<MensFashion />} />
+//              <Route path="/category/electronics" element={<ElectronicsPage/>} />
+//              <Route path="/category/sports-fitness" element={<SportsFitness />} />
+//              <Route path="/category/kids-wear" element={<KidsWear />} />
+//              <Route path="/category/fashion" element={<FashionPage/>} />
+//             <Route path="/category/living" element={<HomeLivingPage />} />
+//             <Route path="/category/beauty" element={<BeautyPage/>} />
+//              <Route path="/cart" element={<Cart />} />
+//              <Route path="/contact" element={<Contact />} />
+//              <Route path="/checkout" element={<Checkout />} />
+//              <Route path="/payment" element={<PaymentOptions />} />
+//              {/* <Route path="product" element={<ProductCategoriesSlider/>} */}
+//              <Route path="/order-summary" element={<OrderSummary />} />
+//             <Route path="/profile" element={<Profile />} /> 
+//             {/* Add more routes as needed for other pages */}
+//           </Routes>
+//           <BackToTopButton />
+//         <Footer/>
+//     </Router>
+//     </CartProvider>
+//   );
+// };
+
+// export default App;
 
 
 // import React from "react";

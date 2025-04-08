@@ -30,7 +30,7 @@ const salesData = [
     discount: 20,
     rating: 4.8,
     reviews: 87,
-    image: "https://lh3.googleusercontent.com/xGl3LTIUEG_7VCKq3JcEyE8v-A8Dz-mdw8nMDUCvIGw8uonPY08gRFOZMlncC_aqjJOkAoxY6pt6J3IxOtKDw-pGQneozf9bPb6GGl3fMGhsxlPb90c9UszzbgpTUZxOYOBzklbfO452TMsdMYrTUm_GSfMjXk4TSg2bX1tNjDcX1TQ872kVgoe6_2Tk",
+    image: "https://static.digit.in/laptops.png",
     expiry: Date.now() + 72 * 60 * 60 * 1000,
     details: "Get top-notch gaming and business laptops with high-refresh-rate screens, SSD storage, and powerful GPUs. Limited stocks available!",
     features: ["144Hz Refresh Rate", "512GB SSD", "NVIDIA RTX 3060", "16GB RAM"],
