@@ -101,7 +101,7 @@ const Navbar = () => {
             onMouseLeave={handleMouseLeave}
             className="relative"
           >
-            <NavLink to="/shop" className=" hover:text-gray-300" activeClassName="text-black">
+            <NavLink to="/category" className=" hover:text-gray-300" activeClassName="text-black">
               Shop
             </NavLink>
             <ul
@@ -240,117 +240,93 @@ const Navbar = () => {
 
         
 
-      {/* Sidebar for mobile view */}
-      <div
-  className={`fixed top-0 left-0 w-full pt-10 h-full bg-gradient-to-b from-gray-900 to-teal-500 font-poppins text-white shadow-lg transform transition-transform duration-300 ease-in-out z-[9999] ${
+   {/* Professional Mobile Sidebar */}
+<div
+  className={`fixed inset-0 w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 font-poppins text-white shadow-xl transform transition-all duration-300 ease-in-out z-50 ${
     isMenuOpen ? "translate-x-0" : "-translate-x-full"
   }`}
 >
-<button
-          onClick={toggleMenu}
-          className="absolute top-4 right-4 text-4xl text-red-400 font-bold"
-        >
-          <IoClose />
-        </button>
-  <div className="flex justify-between">
-  <NavLink
-                to="/"
-                className="text-3xl p-4  font-semibold  "
-                activeClassName="text-black"
-                onClick={toggleMenu}
-              >
-                ShopNow
-              </NavLink>
-              {/* <li> */}
-              <NavLink
-                to="/cart"
-                className="text-3xl p-5 transition-all duration-300 ease-in-out hover:-translate-y-1 "
-                activeClassName="text-black"
-                
-              >
-                      <FaCartShopping  className="stroke-2 text-3xl" />
-              </NavLink>
-            {/* </li> */}
+  {/* Header with close button */}
+  <div className="flex items-center justify-between p-6 border-b border-gray-700">
+    <NavLink
+      to="/"
+      className="text-2xl font-bold tracking-tight text-white hover:text-teal-400 transition-colors"
+      onClick={toggleMenu}
+    >
+      ShopNow
+    </NavLink>
+    
+    <div className="flex items-center space-x-4">
+      <NavLink
+        to="/cart"
+        className="p-2 relative hover:text-teal-400 transition-colors"
+      >
+        <FaCartShopping className="text-xl" />
+        {/* Optional: Add cart item count badge */}
+        <span className="absolute -top-1 -right-1 bg-teal-500 text-xs rounded-full h-5 w-5 flex items-center justify-center">
+          3
+        </span>
+      </NavLink>
+      
+      <button
+        onClick={toggleMenu}
+        className="p-1 text-gray-400 hover:text-white transition-colors"
+        aria-label="Close menu"
+      >
+        <IoClose className="text-2xl" />
+      </button>
+    </div>
   </div>
 
-        <div className="p-6">
-          <ul className="space-y-4 justify-center">
-            
-            <li>
-              <NavLink
-                to="/"
-                className="text-lg font-semibold text-gray-200 hover:text-black"
-                activeClassName="text-black"
-                onClick={toggleMenu}
-              >
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/shop"
-                className="text-lg font-semibold text-gray-200 hover:text-black"
-                activeClassName="text-black"
-                onClick={toggleMenu}
-              >
-                Shop
-              </NavLink>
-              </li>
-              
+  {/* Navigation Links */}
+  <nav className="p-6">
+    <ul className="space-y-6">
+      {[
+        { path: "/", label: "Home" },
+        { path: "/shop", label: "Shop" },
+        { path: "/category", label: "Categories" },
+        { path: "/sales", label: "Sales" },
+        { path: "/contact", label: "Contact" }
+      ].map((item) => (
+        <li key={item.path}>
+          <NavLink
+            to={item.path}
+            className={({ isActive }) => 
+              `block py-3 px-4 rounded-lg text-lg font-medium transition-colors ${
+                isActive 
+                  ? "bg-gray-800 text-teal-400" 
+                  : "text-gray-300 hover:bg-gray-800 hover:text-white"
+              }`
+            }
+            onClick={toggleMenu}
+          >
+            {item.label}
+          </NavLink>
+        </li>
+      ))}
+    </ul>
+  </nav>
 
-              <li>
-                <NavLink
-                to="/category"
-                className="text-lg font-semibold text-gray-200 hover:text-black"
-                activeClassName="text-black"
-                onClick={toggleMenu}
-                >
-                  Categories
-                  </NavLink>
-              </li>
-              <li>
-                <NavLink
-                to="/sales"
-                className="text-lg font-semibold text-gray-200 hover:text-black"
-                activeClassName="text-black"
-                onClick={toggleMenu}
-                >
-                  Sales
-                  </NavLink>
-              </li>
-              <li>
-              <NavLink
-                to="/contact"
-                className="text-lg font-semibold text-gray-200 hover:text-black"
-                activeClassName="text-black"
-                onClick={toggleMenu}
-              >
-                Contact
-              </NavLink>
-            </li>
-            {/* <li>
-              <NavLink
-                to="/cart"
-                className="text-lg font-semibold hover:text-black"
-                activeClassName="text-black"
-                
-              >
-                      <CiShoppingCart className="stroke-1 text-lg" />
-              </NavLink>
-            </li> */}
-            <li>
-            <button
-  onClick={toggleModal}
-  className="bg-gray-900 p-2 rounded w-full text-center transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-lg hover:bg-gray-800"
->
-  Signup
-</button>
-
-
-            </li>
-          </ul>
-        </div>
-      </div>
+  {/* Auth Section */}
+  <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-700 bg-gray-900/50">
+    <button
+      onClick={toggleModal}
+      className="w-full py-3 px-6 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-0.5"
+    >
+      Sign Up
+    </button>
+    
+    <p className="mt-4 text-center text-gray-400 text-sm">
+      Already have an account?{" "}
+      <button 
+        onClick={toggleModal}
+        className="text-teal-400 hover:text-teal-300 underline transition-colors"
+      >
+        Log In
+      </button>
+    </p>
+  </div>
+</div>
 
       {/* Modal for login/signup */}
       {isModalOpen && (

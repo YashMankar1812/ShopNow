@@ -34,6 +34,7 @@ import LoginSignup from './components/LoginSignup ';
 import OrderConfirmation from './pages/OrderConfirmation';
 import ViewOrders from './pages/ViewOrders';
 
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
@@ -69,6 +70,9 @@ const App = () => {
               <Route path="/" element={<HeroSection />} />
               <Route path="/about" element={<AboutUs />} />
               <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/electronics" element={<Shop />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop" element={<Shop />} />
               <Route path="/shop/clothing" element={<Clothing />} />
               <Route path="/shop/electronics" element={<Electronics />} />
               <Route path="/shop/furniture" element={<Furniture />} />
@@ -83,7 +87,7 @@ const App = () => {
               <Route path="/category/kids-wear" element={<KidsWear />} />
               <Route path="/category/fashion" element={<FashionPage />} />
               <Route path="/category/living" element={<HomeLivingPage />} />
-              <Route path="/category/beauty" element={<BeautyPage />} />
+              <Route path="/category/beauty" element={<BeautyPage />} />  
               <Route path="/cart" element={<Cart />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/checkout" element={<Checkout />} />
@@ -105,6 +109,9 @@ const App = () => {
 };
 
 export default App;
+
+
+
 
 // import React from 'react';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';

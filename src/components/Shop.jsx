@@ -1,77 +1,175 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+// import axios from "axios";
 import { useCart } from "../context/CartContext";
 import { CiBoxList, CiGrid41 } from "react-icons/ci";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast"; // Import toast and Toaster from react-hot-toast
 
-const categories = [
-  "All", "Clothing", "Electronics", "Accessories", "Fitness", "Shoes", "Beauty", "Health", "Books", "Toys",
-];
-
-const products = [
-  { id: 1, name: "Wireless Headphones", category: "Electronics", price: 99.99, image: "https://images.unsplash.com/photo-1583394838336-a3e32b67ddfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 2, name: "Running Shoes", category: "Shoes", price: 79.99, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 3, name: "Cotton T-Shirt", category: "Clothing", price: 29.99, image: "https://images.unsplash.com/photo-1521572163810-b019b486c1a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 4, name: "Smart Watch", category: "Electronics", price: 149.99, image: "https://images.unsplash.com/photo-1523275335684-39c174619bab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 5, name: "Leather Belt", category: "Accessories", price: 49.99, image: "https://images.unsplash.com/photo-1611322199042-14c1a76c67d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 6, name: "Yoga Mat", category: "Fitness", price: 39.99, image: "https://images.unsplash.com/photo-1599818591459-71c1b3563965?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 7, name: "Lipstick Set", category: "Beauty", price: 24.99, image: "https://images.unsplash.com/photo-1596496417332-9011559c80d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 8, name: "Vitamin C Supplements", category: "Health", price: 19.99, image: "https://images.unsplash.com/photo-1605327299374-2c6f135b2e36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 9, name: "Fiction Novel", category: "Books", price: 12.99, image: "https://images.unsplash.com/photo-1516979188813-a7dd039d628a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 10, name: "Building Blocks", category: "Toys", price: 34.99, image: "https://images.unsplash.com/photo-1550972462-2c6329c54697?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 11, name: "Formal Shoes", category: "Shoes", price: 89.99, image: "https://images.unsplash.com/photo-1543163521-1bf539c3bb97?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 12, name: "Denim Jeans", category: "Clothing", price: 59.99, image: "https://images.unsplash.com/photo-1581655353564-df123a1eb820?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG0dG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 13, name: "Camera Lens", category: "Electronics", price: 299.99, image: "https://images.unsplash.com/photo-1510253508682-eb50224419b5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 14, name: "Scarf", category: "Accessories", price: 29.99, image: "https://images.unsplash.com/photo-1522869635100-9f09e71c4c92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-  { id: 15, name: "Dumbbells", category: "Fitness", price: 69.99, image: "https://images.unsplash.com/photo-1549495952-a5482c5c99b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
-];
+// Base URL for your backend API
+const API_BASE_URL = "http://localhost:7000"; // Ensure this matches your server.js PORT
 
 const Shop = () => {
   const { addToCart } = useCart();
   const [view, setView] = useState("grid");
-  const [category, setCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All"); // Renamed for clarity
+  const [products, setProducts] = useState([]); // State to store fetched products
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [wishlist, setWishlist] = useState([]);
 
-  useEffect(() => {
-    const storedWishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-    setWishlist(storedWishlist);
+  // Dummy user ID for now - in a real app, this would come from auth context/local storage
+  // You'll need to replace this with the actual user ID from your authentication system.
+  // For demonstration, let's assume a user ID of 1 for now.
+  // IMPORTANT: In a real application, this userId should be dynamically obtained
+  // from the authenticated user's context or token.
+  const DUMMY_USER_ID = 1; 
+
+  // Function to fetch products based on category
+  const fetchProducts = useCallback(async (category) => {
+    setLoading(true);
+    setError(null);
+    try {
+      let response;
+      if (category === "All") {
+        response = await axios.get(`${API_BASE_URL}/products`);
+      } else {
+        response = await axios.get(`${API_BASE_URL}/products/category/${category}`);
+      }
+      setProducts(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching products:", err);
+      setError("Failed to load products. Please try again later.");
+      setLoading(false);
+      toast.error("Failed to load products.", { position: "top-center" });
+    }
   }, []);
 
-  const handleWishlistToggle = (product) => {
-    if (!product) return; // Add check here
+  // Function to fetch user's wishlist
+  const fetchWishlist = useCallback(async () => {
+    try {
+      // You'll need to send an authorization token with this request
+      // For now, assuming a public endpoint or a way to get the token
+      const token = localStorage.getItem('token'); // Get token from local storage
+      if (!token) {
+        console.warn("No authentication token found. Wishlist features may not work.");
+        return;
+      }
 
-    const isProductInWishlist = wishlist.some((item) => item && item.id === product.id); // Add check here
-    let updatedWishlist;
+      const response = await axios.get(`${API_BASE_URL}/wishlist/${DUMMY_USER_ID}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setWishlist(response.data);
+    } catch (err) {
+      console.error("Error fetching wishlist:", err);
+      // toast.error("Failed to load wishlist.", { position: "bottom-right" });
+    }
+  }, []);
 
-    if (isProductInWishlist) {
-      updatedWishlist = wishlist.filter((item) => item && item.id !== product.id); // Add check here
-      toast.info(`${product.name} removed from wishlist!`, { position: "top-right", autoClose: 2000, hideProgressBar: true });
-    } else {
-      updatedWishlist = [...wishlist, product];
-      toast.success(`${product.name} added to wishlist!`, { position: "top-right", autoClose: 2000, hideProgressBar: true });
+  useEffect(() => {
+    fetchProducts(selectedCategory);
+    fetchWishlist(); // Fetch wishlist on component mount
+  }, [fetchProducts, fetchWishlist, selectedCategory]); // Re-fetch when category changes
+
+  const handleWishlistToggle = async (product) => {
+    if (!product || !product.product_id) return; // Ensure product and its ID exist
+
+    const isProductInWishlist = wishlist.some((item) => item && item.product_id === product.product_id);
+    const token = localStorage.getItem('token'); // Get token from local storage
+
+    if (!token) {
+      toast.error("Please log in to manage your wishlist.", { position: "top-center" });
+      return;
     }
 
-    setWishlist(updatedWishlist);
-    localStorage.setItem("wishlist", JSON.stringify(updatedWishlist));
+    try {
+      if (isProductInWishlist) {
+        // Remove from wishlist
+        await axios.delete(`${API_BASE_URL}/wishlist/${DUMMY_USER_ID}/${product.product_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlist((prevWishlist) => prevWishlist.filter((item) => item.product_id !== product.product_id));
+        toast.info(`${product.name} removed from wishlist!`, { position: "top-right", duration: 2000 });
+      } else {
+        // Add to wishlist
+        await axios.post(`${API_BASE_URL}/wishlist/add`, { product_id: product.product_id }, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWishlist((prevWishlist) => [...prevWishlist, { ...product, product_id: product.product_id }]); // Add product_id
+        toast.success(`${product.name} added to wishlist!`, { position: "top-right", duration: 2000 });
+      }
+    } catch (err) {
+      console.error("Error toggling wishlist:", err);
+      toast.error("Failed to update wishlist. Please try again.", { position: "top-center" });
+    }
   };
 
-  const handleAddToCart = (product) => {
-    if(!product) return; // add check here.
-    addToCart(product);
-    toast.success(`${product.name} added to cart!`, { position: "top-right", autoClose: 2000 });
+  const handleAddToCart = async (product) => {
+    if (!product || !product.product_id) return; // Ensure product and its ID exist
+
+    const token = localStorage.getItem('token'); // Get token from local storage
+
+    if (!token) {
+      toast.error("Please log in to add items to your cart.", { position: "top-center" });
+      return;
+    }
+
+    try {
+      await axios.post(`${API_BASE_URL}/cart/add`, {
+        product_id: product.product_id,
+        quantity: 1 // Always add 1 for now, or use a quantity state if available
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      addToCart(product); // Assuming addToCart in context handles local state update
+      toast.success(`${product.name} added to cart!`, { position: "top-right", duration: 2000 });
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+      toast.error("Failed to add to cart. Please try again.", { position: "top-center" });
+    }
   };
 
-  const filteredProducts = category === "All" ? products : products.filter((p) => p.category === category);
+  // Categories for display (can also be fetched from backend /api/categories)
+  const displayCategories = [
+    "All", "Smartphones", "Laptops", "Headphones", "Smart Watches", // Example electronics categories
+    "Shirts", "Pants", "Outerwear", "Suits", "Activewear", "Sweaters", // Example men's fashion categories
+    "Skincare", "Makeup", "Hair Care", "Fragrance", // Example beauty categories
+    "Living Room", "Bedroom", "Kitchen & Dining", "Home Office", // Example home & living categories
+    "Yoga", "Strength", "Running", "Training", "Accessories", // Example sports & fitness categories
+    "Baby", "Tops", "Bottoms", "Dresses", "Sets", "Sleepwear" // Example kids wear categories
+  ];
+
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <div className="text-red-500 font-bold text-center mt-8">{error}</div>;
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6 font-poppins">
+      <Toaster /> {/* Add the Toaster component here */}
+
       <div className="flex flex-wrap justify-center gap-4 mt-20">
-        {categories.map((cat) => (
+        {displayCategories.map((cat) => (
           <button
             key={cat}
-            onClick={() => setCategory(cat)}
-            className={`px-4 py-2 border rounded-full transition ${category === cat ? "bg-teal-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
+            onClick={() => setSelectedCategory(cat)}
+            className={`px-4 py-2 border rounded-full transition ${selectedCategory === cat ? "bg-teal-600 text-white" : "bg-gray-100 hover:bg-gray-200"}`}
           >
             {cat}
           </button>
@@ -85,46 +183,192 @@ const Shop = () => {
       </div>
 
       <div className={`${view === "grid" ? "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-8" : "space-y-6 mt-8"}`}>
-        {filteredProducts?.map((product) => {
-          if (!product) return null; // Add check here
+        {products.length === 0 ? (
+          <div className="text-center py-8 col-span-full">
+            <p className="text-gray-500">No products found for this category.</p>
+          </div>
+        ) : (
+          products.map((product) => {
+            // Ensure product.product_id is used for comparison, as that's the PK from DB
+            const isProductInWishlist = wishlist.some((item) => item && item.product_id === product.product_id);
 
-          const isProductInWishlist = wishlist.some((item) => item && item.id === product.id); // Add check here
+            return (
+              <div key={product.product_id} className={`relative bg-white border rounded-lg shadow-md overflow-hidden ${view === "list" ? "flex" : ""}`}>
+                <button
+                  onClick={() => handleWishlistToggle(product)}
+                  className="absolute top-2 right-2 text-xl text-red-500 hover:text-red-700 bg-white bg-opacity-75 p-2 rounded-full shadow-md z-10"
+                >
+                  {isProductInWishlist ? <FaHeart /> : <FaRegHeart />}
+                </button>
 
-          return (
-            <div key={product.id} className={`relative bg-white border rounded-lg shadow-md overflow-hidden ${view === "list" ? "flex" : ""}`}>
-              <button
-                onClick={() => handleWishlistToggle(product)}
-                className="absolute top-2 right-2 text-xl text-red-500 hover:text-red-700 bg-white bg-opacity-75 p-2 rounded-full shadow-md z-10"
-              >
-                {isProductInWishlist ? <FaHeart /> : <FaRegHeart />}
-              </button>
+                <div className={`${view === "grid" ? "w-full h-64" : "w-48 h-48"} relative`}>
+                  <img
+                    src={product.image_url || "https://placehold.co/300x300?text=No+Image"} // Use image_url from DB
+                    alt={product.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/300x300?text=Image+Error"; }}
+                  />
+                </div>
 
-              <div className={`${view === "grid" ? "w-full h-64" : "w-48 h-48"} relative`}>
-                <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-              </div>
-
-              <div className={`p-6 flex flex-col justify-between ${view === "list" ? "flex-1" : ""}`}>
-                <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
-                <p className="text-gray-500 text-sm mb-4">{product.category}</p>
-                <div className="flex items-center justify-between">
-                  <p className="text-green-600 font-bold text-lg">${product.price}</p>
-                  <button
-                    className="px-4 py-2 border-2 border-teal-600 text-teal-600 rounded-md shadow transition hover:bg-teal-600 hover:text-white"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
+                <div className={`p-6 flex flex-col justify-between ${view === "list" ? "flex-1" : ""}`}>
+                  <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
+                  {/* Display category if available, or fetch from product.category_id if needed */}
+                  {/* <p className="text-gray-500 text-sm mb-4">{product.category}</p> */}
+                  <div className="flex items-center justify-between">
+                    <p className="text-green-600 font-bold text-lg">${product.price?.toFixed(2)}</p>
+                    <button
+                      className="px-4 py-2 border-2 border-teal-600 text-teal-600 rounded-md shadow transition hover:bg-teal-600 hover:text-white"
+                      onClick={() => handleAddToCart(product)}
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </div>
   );
 };
 
 export default Shop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

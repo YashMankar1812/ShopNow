@@ -10,6 +10,7 @@ import { MdOutlineAssignmentReturn } from "react-icons/md";
 import { Pagination, Autoplay } from "swiper";
 import { useNavigate } from "react-router-dom";
 
+
    
   
   const NewCollection = () => {
@@ -47,7 +48,7 @@ import { useNavigate } from "react-router-dom";
   New Collection 2025
 </h4> */}
 <h4 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
-  New Collection 2025
+  New Collection 2026
 </h4>
             <p className="text-xl text-gray-600">
               Discover Stylish Fashion For Every Season
@@ -56,12 +57,15 @@ import { useNavigate } from "react-router-dom";
             "Welcome to ShopNow, your ultimate destination for stylish, high-quality products at unbeatable prices! Whether you're looking for the latest fashion trends, cutting-edge electronics, or everyday essentials, we've got you covered."
             </p>
             <div className="flex gap-4">
-              <button className="bg-teal-600 text-white px-6 py-2 rounded-full  text-center transition-all duration-300 ease-in-out hover:-translate-y-1" onClick={() => navigate("/shop")}>
+              <button className="bg-teal-600 text-white px-6 py-2 rounded-full  text-center transition-all duration-300 ease-in-out hover:-translate-y-1" onClick={() => navigate("/category")}>
                 Shop Now →
               </button>
-              <button className="border-2 border-teal-600 text-teal-600 px-6 py-2 rounded-full hover:bg-teal-600 hover:text-white transition-colors duration-300"  onClick={() => navigate("/shop")}>
-                View Collection
-              </button>
+              <button
+  className="border-2 border-teal-600 text-teal-600 px-6 py-2 rounded-full hover:bg-teal-600 hover:text-white transition-colors duration-300"
+  
+>
+  View Collection
+</button>
             </div>
             <div className="flex gap-6 mt-6">
             <div className="text-center gap-4 flex justify-evenly items-center">
